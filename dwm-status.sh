@@ -47,22 +47,6 @@ print_volume() {
 	fi
 }
 
-print_wifi() {
-	ip=$(ip route get 8.8.8.8 2>/dev/null|grep -Eo 'src [0-9.]+'|grep -Eo '[0-9.]+')
-
-	if=wlan0
-		while IFS=$': \t' read -r label value
-		do
-			case $label in SSID) SSID=$value
-				;;
-			signal) SIGNAL=$value
-				;;
-		esac
-	done < <(iw "$if" link)
-
-	echo -e "$SSID $SIGNAL $ip"
-}
-
 print_mem(){
 	memfree=$(($(grep -m1 'MemAvailable:' /proc/meminfo | awk '{print $2}') / 1024))
 	echo -e "$memfree"
@@ -90,7 +74,7 @@ print_bat(){
 }
 
 print_date(){
-	date #"+%a %m-%d %T%:::z"
+	date "+%Y-%m-%d %t"
 }
 
 show_record(){
@@ -128,13 +112,12 @@ do
 	vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
 	vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
-	xsetroot -name "💿$(print_mem) ⬇️$vel_recv ⬆️$vel_trans $(dwm_alsa) 🌡️$(print_temp) $(print_bat)$(show_record) $(print_date)"
+	xsetroot -name "💿$(print_mem)M ⬇️$vel_recv ⬆️$vel_trans $(dwm_alsa) BAT: $(print_bat)$(show_record) $(print_date)"
 
 	# Update old values to perform new calculations
 	old_received_bytes=$received_bytes
 	old_transmitted_bytes=$transmitted_bytes
 	old_time=$now
-
 	sleep 1
 
 done
