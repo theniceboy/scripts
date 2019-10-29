@@ -74,7 +74,7 @@ print_bat(){
 }
 
 print_date(){
-	date "+%Y-%m-%d %t"
+	date
 }
 
 show_record(){
