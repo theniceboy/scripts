@@ -119,7 +119,7 @@ print_bat(){
 }
 
 print_date(){
-	date '+%d/%m/%Y %H:%M'
+	date '+%Y年%m月%d日 %H:%M'
 }
 
 show_record(){
