@@ -1,4 +1,4 @@
 #!/bin/bash
 
-/usr/bin/pactl set-sink-volume 0 +5%
+/usr/bin/amixer set Master 5%+
 bash ~/scripts/dwm-status-refresh.sh
